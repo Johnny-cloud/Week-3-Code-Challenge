@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let filmsUrl = "http://localhost:3000/films";
 
+    //get the place to display the data on the html page
     let ul = document.querySelector("#films");
     let film = document.querySelector("#film");
     let filmTitle = film.querySelector("#title");
@@ -9,12 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let filmRuntime = film.querySelector("#runtime");
     let filmShowtime = film.querySelector("#showtime");
     let filmAvailableTickets = document.getElementById('available-tickets');
-   // let purchaseBtn = film.querySelector(".purchase-ticket");
+   
     
 
     fetchFilms();
 
-    displayFirstFilm();
 
     function displayFirstFilm() {
         fetch(filmsUrl + '/' + 1)
@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function fetchFilms(){
+        displayFirstFilm();
         fetch(filmsUrl)
         .then(res => res.json())
         .then(films => films.forEach(film => addAsList(film)))
@@ -31,14 +32,15 @@ document.addEventListener("DOMContentLoaded", () => {
     
     }
 
+    //create li for the film and append it to the ul
     function addAsList(film) {
         let li = document.createElement("li");
         li.textContent = film.title;
-        li.addEventListener('click', () => displayFilmDetails(film));
+        li.addEventListener('click', () => displayFilmDetails(film,li));
         ul.append(li);
     }
 
-    function displayFilmDetails(filmObj){
+    function displayFilmDetails(filmObj,li){
 
         //create a new button for every ticket and remove the previous button to avoid conflict
         let btnChild = document.querySelector('#purchase-ticket');
@@ -58,12 +60,20 @@ document.addEventListener("DOMContentLoaded", () => {
         filmShowtime.textContent = filmObj.showtime;
         filmAvailableTickets.textContent = availableTickets;
 
-        purchaseBtn.addEventListener('click', () => {   
+        //check if tickets are still available
+        purchaseBtn.addEventListener('click', () => { 
+                availableTickets -= 1;  
               if(availableTickets <= 0){
-                alert("No more tickets for this movie!");
+                // alert("No more tickets for this movie!");
+                purchaseBtn.textContent = "Sold out!";
+                purchaseBtn.className = "sold-out";
+                if(li){
+                    li.className = "sold-out";
+                }
+                
                 filmAvailableTickets.textContent = 0;
             }else{
-                availableTickets -= 1;
+                
                 filmAvailableTickets.textContent = availableTickets;
                 filmObj.tickets_sold += 1;
             }
@@ -73,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
         film.append(purchaseBtn);  
 
     }
+    
 
 
 

@@ -35,3 +35,14 @@ button:hover{
     background-color: green;
     color: aliceblue;
 }
+.sold-out{
+    background-color: red;
+    color: aliceblue;
+    font-size: 20px;
+    margin-left: 30px; 
+}
+.sold-out:hover{
+    font-size: large;
+    background-color: red;
+    
+}
