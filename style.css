@@ -40,9 +40,11 @@ button:hover{
     color: aliceblue;
     font-size: 20px;
     margin-left: 30px; 
+    padding: 10px;
 }
 .sold-out:hover{
     font-size: large;
     background-color: red;
+   
     
 }

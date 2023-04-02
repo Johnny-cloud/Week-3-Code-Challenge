@@ -42,6 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function displayFilmDetails(filmObj,li){
 
+        //calculate the available tickets
+        let availableTickets = filmObj.capacity - filmObj.tickets_sold;
+
         //create a new button for every ticket and remove the previous button to avoid conflict
         let btnChild = document.querySelector('#purchase-ticket');
         film.removeChild(btnChild);
@@ -50,8 +53,6 @@ document.addEventListener("DOMContentLoaded", () => {
         //set button id and text it displays
         purchaseBtn.setAttribute('id', 'purchase-ticket');
         purchaseBtn.textContent = "Purchase a ticket";
-
-        let availableTickets = filmObj.capacity - filmObj.tickets_sold;
 
         //set film details
         filmTitle.textContent = filmObj.title;
@@ -62,21 +63,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         //check if tickets are still available
         purchaseBtn.addEventListener('click', () => { 
-                availableTickets -= 1;  
+
               if(availableTickets <= 0){
                 // alert("No more tickets for this movie!");
-                purchaseBtn.textContent = "Sold out!";
-                purchaseBtn.className = "sold-out";
                 if(li){
                     li.className = "sold-out";
                 }
-                
+                purchaseBtn.textContent = "Sold out!";
+                purchaseBtn.classList.add("sold-out"); 
                 filmAvailableTickets.textContent = 0;
+
             }else{
-                
+                availableTickets -= 1;
                 filmAvailableTickets.textContent = availableTickets;
                 filmObj.tickets_sold += 1;
             }
+          
         
         })
 
@@ -84,8 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
     
-
-
 
     function purchaseTicket(filmObj) {
         console.log(obj.id);
