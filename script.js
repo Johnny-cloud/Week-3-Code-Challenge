@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function displayFilmDetails(filmObj,li){
-
+        console.log(filmObj.tickets_sold);
         //calculate the available tickets
         let availableTickets = filmObj.capacity - filmObj.tickets_sold;
 
@@ -68,7 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
         //check if tickets are still available
         purchaseBtn.addEventListener('click', () => { 
             availableTickets -= 1;
-            
+            filmObj.tickets_sold += 1; //increase for the next li click listener
+
             if(availableTickets <= 0){
                 filmAvailableTickets.textContent = "Sold out!";
             
@@ -76,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 filmAvailableTickets.textContent = availableTickets;
             }
             
-            filmObj.tickets_sold += 1;
+           
              
               if(availableTickets <= 0){
                 // alert("No more tickets for this movie!");
