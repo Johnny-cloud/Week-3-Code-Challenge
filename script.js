@@ -59,11 +59,25 @@ document.addEventListener("DOMContentLoaded", () => {
         filmPoster.src = filmObj.poster;
         filmRuntime.textContent = filmObj.runtime;
         filmShowtime.textContent = filmObj.showtime;
-        filmAvailableTickets.textContent = availableTickets;
+        if(availableTickets <= 0){
+            filmAvailableTickets.textContent = "Sold out!";
+        }else{
+            filmAvailableTickets.textContent = availableTickets;
+        }
 
         //check if tickets are still available
         purchaseBtn.addEventListener('click', () => { 
-
+            availableTickets -= 1;
+            
+            if(availableTickets <= 0){
+                filmAvailableTickets.textContent = "Sold out!";
+            
+            }else{
+                filmAvailableTickets.textContent = availableTickets;
+            }
+            
+            filmObj.tickets_sold += 1;
+             
               if(availableTickets <= 0){
                 // alert("No more tickets for this movie!");
                 if(li){
@@ -71,14 +85,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 purchaseBtn.textContent = "Sold out!";
                 purchaseBtn.classList.add("sold-out"); 
-                filmAvailableTickets.textContent = 0;
-
-            }else{
-                availableTickets -= 1;
-                filmAvailableTickets.textContent = availableTickets;
-                filmObj.tickets_sold += 1;
+                filmAvailableTickets.textContent = "Sold out !";
+                availableTickets = 0;
+                return
             }
-          
+            
+           
+            return;
+                
+                
+     
         
         })
 
@@ -91,4 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(obj.id);
     }
 
+    function checkTicketAvailability(availableTickets) {
+        
+    }
 })
